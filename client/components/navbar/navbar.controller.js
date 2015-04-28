@@ -2,10 +2,11 @@
 
 angular.module('warehouseApp')
   .controller('NavbarCtrl', function ($scope, $location, Auth) {
-    $scope.menu = [{
-      'title': 'Home',
-      'link': '/'
-    }];
+    $scope.menu = [
+      {'title': 'Home','link': '/'},
+      {'title': 'Inventory','link': '/category'},
+      {'title': 'Orders','link': '/order'}
+      ];
 
     $scope.isCollapsed = true;
     $scope.isLoggedIn = Auth.isLoggedIn;

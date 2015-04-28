@@ -8,6 +8,8 @@
 module.exports = {
   DOMAIN:           'http://localhost:9000',
   SESSION_SECRET:   'warehouse-secret',
+  AWS_ACCESS_KEY:'AKIAJR5SB4X63MS65AZQ',
+  AWS_SECRET:'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'
 
   // Control debug level for modules using visionmedia/debug
   DEBUG: ''
