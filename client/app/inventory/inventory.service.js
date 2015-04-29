@@ -4,10 +4,10 @@ angular.module('warehouseApp')
   .factory('Inventory', function ($resource) {
     // Public API here
     return {
-      category: $resource('/api/category/:id',{},{
+      category: $resource('/api/categories/:id',{},{
                     tree: {method:'GET', params:{tree:true}}
                   }),
-      product:  $resource('/api/product/:id'),
-      brand:    $resource('/api/brand/:id')
+      product:  $resource('/api/products/:id'),
+      brand:    $resource('/api/brands/:id')
     };
   });
