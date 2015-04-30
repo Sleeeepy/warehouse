@@ -1,5 +1,84 @@
-<div class="col-md-12">
+
+<div class="container">
+<div class="col-md-6">
 <a class="pull-right btn " href="/category/new"><span class="glyphicon glyphicon-plus"></span> Create Category</a>
 This is the category view.
 {{categories}}
+</div>
+
+
+<div class="col-md-6">
+<ul class="nav nav-tabs">
+	<li role="presentation" ng-class="{active: true}">
+		<a ng-href="/category/{{ category._id }}">View</a>
+	</li>
+	<li role="presentation" ng-class="{active: false}">
+		<a ng-href="/category/{{ category._id }}/edit">Edit</a>
+	</li>
+</ul>
+
+
+<form class="form" name="form" ng-submit="addCategory(form)" novalidate autocomplete="off">
+  <!--Title-->
+  <div class="form-group " ng-class="{ 'has-success': form.title.$valid && submitted,
+                                      'has-error': form.slug.$name && submitted }">
+    <label>Title</label>
+    <input  type="text" name="title" class="form-control" ng-model="category.name"required/>
+    <p class="help-block" ng-show="form.title.$error.required && submitted">
+      A title is required
+    </p>
+  </div>
+  <!--Slug-->
+  <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,
+                                      'has-error': form.name.$invalid && submitted }">
+    <label>Slug</label>
+    <input type="email" name="name" class="form-control" ng-model="category.slug"
+           required
+           mongoose-error/>
+    <p class="help-block" ng-show="form.name.$error.email && submitted">
+      Doesn't look like a valid name.
+    </p>
+    <p class="help-block" ng-show="form.email.$error.required && submitted">
+      Please provide a name for the category.
+    </p>
+    <p class="help-block" ng-show="form.email.$error.mongoose">
+      {{ errors.email }}
+    </p>
+  </div>
+  <!--Parent-->
+  <div class="form-group" ng-class="{ 'has-success': form.password.$valid && submitted,
+                                      'has-error': form.password.$invalid && submitted }">
+    <label>Parent</label>
+    <select class="form-control"
+            ng-options="opt for opt in ['sortOptions']"
+            style="widht:70%;"
+            ng-model="category.parent"
+            ng-init="selectedOrder=sortOptions[0]"
+            name="parent">
+    </select>
+</div>
+  <!--Description-->
+  <div class="form-group" ng-class="{ 'has-success': form.description.$valid && submitted,
+                                      'has-error': form.description.$invalid && submitted }">
+    <label>Descrription</label>
+    <textarea name="description" class="form-control" ng-model="category.description"
+           required
+           mongoose-error/>
+    <p class="help-block" ng-show="form.description.$error.required && submitted">
+      Please provide a description for the category.
+    </p>
+  </div>
+
+
+  <div>
+    <button class="btn btn-md btn-success" type="submit">
+      Submit
+    </button>
+    <a class="btn btn-default btn-md btn-register" href="/login">
+      Reset
+    </a>
+  </div>
+
+</form>
+</div>
 </div>
