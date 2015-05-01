@@ -1,6 +1,7 @@
 'use strict';
 
 var mongoose = require('mongoose'),
+    treePlugin = require('mongoose-tree2'),
     Schema = mongoose.Schema;
 
 var CategorySchema = new Schema({
@@ -15,5 +16,7 @@ var CategorySchema = new Schema({
   active: Boolean
 
 });
+
+CategorySchema.plugin(treePlugin);
 
 module.exports = mongoose.model('Category', CategorySchema);

@@ -1,13 +1,37 @@
 'use strict';
 
-var _ = require('lodash');
-var Category = require('./category.model');
+var _        = require('lodash');
+var Category = require('./category.model'),
+    Helper   = require('../../components/libs/helper');
 
 // Get list of categorys
 exports.index = function(req, res) {
-  Category.find(function (err, categorys) {
+
+
+  Category.find(function (err, categories) {
     if(err) {  handleError(res, err); }
-    return res.json(200, categorys);
+
+    if(req.query.tree && categories.length>0){
+      var roots = categories.filter(function(category){
+        return !category.parent;
+      });
+      console.log(roots);
+      var tree = function(cat,cb){
+        cat.getChildrenTree({},function(err,tree){
+          cb(err,tree);
+        });
+      };
+      Helper.fullParallelBatch(tree,roots,function(trees){
+        //if(err) {handleError(res, err); }
+        return res.json(200, trees);
+      });
+
+
+
+    }else{
+      return res.json(200, categories);
+    }
+
   });
 };
 

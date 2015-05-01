@@ -2,51 +2,64 @@
 
 angular.module('warehouseApp')
   .controller('CategoryCtrl', function ($scope,Inventory) {
-    $scope.message = 'Hello';
-    $scope.categories="";
-    $scope.category = {};
-    var inventory = Inventory;
-    inventory.category.query().$promise.then(function(categories){
 
-       $scope.categories=categories;
-    });
+    $scope.categories=[null];
+    $scope.tree = [];
+    $scope.category = {};
+    $scope.submitted = false;
+    $scope.alert = {}
+
+
+    var inventory = Inventory;
+
 
     $scope.updateCategories =  function(){
-      inventory.category.query().$promise.then(function(categories){
+      inventory.category.query({level:1}).$promise.then(function(categories){
              $scope.categories=categories;
           });
+      inventory.category.tree().$promise.then(function(categories){
+                   $scope.tree=categories;
+                });
     };
-
+    $scope.updateCategories();
 
     $scope.errors = {};
 
     $scope.addCategory = function(form) {
-      console.log(form);
       $scope.submitted = true;
-      return;
-
-
       if(form.$valid) {
-        Auth.createUser({
-          name: $scope.user.name,
-          email: $scope.user.email,
-          password: $scope.user.password
-        })
-        .then( function() {
-          // Account created, redirect to home
-          $location.path('/');
-        })
-        .catch( function(err) {
-          err = err.data;
-          $scope.errors = {};
+        var newCat = new inventory.category($scope.category);
+        if (newCat.parent){newCat.parent = newCat.parent._id;}
 
-          // Update validity of form fields that match the mongoose errors
-          angular.forEach(err.errors, function(error, field) {
-            form[field].$setValidity('mongoose', false);
-            $scope.errors[field] = error.message;
-          });
+        newCat.$save().then(function(result){
+          $scope.alert={  type: 'success',
+                          msg: 'Category '+result.name+' added successfully.'
+                        };
+          $scope.updateCategories();
+          setTimeout(function(){$scope.reset();},2500);
         });
-      }
+
+        };
+
+    };
+    $scope.deleteCategory = function(category) {
+
+        inventory.category.get({id:category._id}).$promise.then(function(cat){
+          cat.$delete();
+          $scope.updateCategories();
+        });
+
+    };
+
+
+    $scope.reset = function(){
+      $scope.form.$setPristine;
+      $scope.form.$setUntouched;
+      $scope.alert={};
+      $scope.submitted = false;
+      $scope.category = angular.copy({});
+      $scope.$apply();
+
     };
 
 

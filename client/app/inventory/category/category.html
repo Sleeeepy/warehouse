@@ -3,18 +3,23 @@
 <div class="col-md-6">
 <a class="pull-right btn " href="/category/new"><span class="glyphicon glyphicon-plus"></span> Create Category</a>
 This is the category view.
-{{categories}}
+<div ng-repeat="cat in categories">
+	{{cat.name}}
+	<button class="btn btn-sm btn-danger" ng-click="deleteCategory(cat)">	remove	</button>
+
+</div>
+	<pre>{{tree|json}}</pre>
 </div>
 
 
 <div class="col-md-6">
 <ul class="nav nav-tabs">
-	<li role="presentation" ng-class="{active: true}">
-		<a ng-href="/category/{{ category._id }}">View</a>
-	</li>
-	<li role="presentation" ng-class="{active: false}">
-		<a ng-href="/category/{{ category._id }}/edit">Edit</a>
-	</li>
+  <li role="presentation" ng-class="{active: true}">
+    <a ng-href="/category/{{ category._id }}">View</a>
+  </li>
+  <li role="presentation" ng-class="{active: false}">
+    <a ng-href="/category/{{ category._id }}/edit">Edit</a>
+  </li>
 </ul>
 
 
@@ -22,7 +27,7 @@ This is the category view.
   <!--Title-->
   <div class="form-group " ng-class="{ 'has-success': form.title.$valid && submitted,
                                       'has-error': form.slug.$name && submitted }">
-    <label>Title</label>
+    <label popover-placement="top" popover="I appeared on mouse enter!" popover-trigger="mouseenter">Title</label>
     <input  type="text" name="title" class="form-control" ng-model="category.name"required/>
     <p class="help-block" ng-show="form.title.$error.required && submitted">
       A title is required
@@ -31,29 +36,38 @@ This is the category view.
   <!--Slug-->
   <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,
                                       'has-error': form.name.$invalid && submitted }">
-    <label>Slug</label>
-    <input type="email" name="name" class="form-control" ng-model="category.slug"
+    <label   popover-placement="top"
+            popover="Unique identifier"
+            popover-trigger="mouseenter">
+            Slug
+    </label>
+    <input type="text" name="slug" class="form-control" ng-model="category.slug"
            required
            mongoose-error/>
-    <p class="help-block" ng-show="form.name.$error.email && submitted">
+    <p class="help-block" ng-show="form.slug.$error.email && submitted">
       Doesn't look like a valid name.
     </p>
-    <p class="help-block" ng-show="form.email.$error.required && submitted">
+    <p class="help-block" ng-show="form.slug.$error.required && submitted">
       Please provide a name for the category.
     </p>
-    <p class="help-block" ng-show="form.email.$error.mongoose">
-      {{ errors.email }}
+    <p class="help-block" ng-show="form.slug.$error.mongoose">
+      {{ errors.slug }}
     </p>
   </div>
   <!--Parent-->
   <div class="form-group" ng-class="{ 'has-success': form.password.$valid && submitted,
                                       'has-error': form.password.$invalid && submitted }">
-    <label>Parent</label>
+    <label  popover-placement="top"
+            popover="Parent category. Leave blank for main category."
+            popover-trigger="mouseenter">
+            Parent
+    </label>
     <select class="form-control"
-            ng-options="opt for opt in ['sortOptions']"
+            ng-options="cat.name for cat in categories"
             style="widht:70%;"
             ng-model="category.parent"
             ng-init="selectedOrder=sortOptions[0]"
+						default="null"
             name="parent">
     </select>
 </div>
@@ -74,9 +88,10 @@ This is the category view.
     <button class="btn btn-md btn-success" type="submit">
       Submit
     </button>
-    <a class="btn btn-default btn-md btn-register" href="/login">
+    <a class="btn btn-default btn-md btn-register" ng-click="reset(form)" type="reset">
       Reset
     </a>
+		<alert ng-show="alert.msg" type="{{alert.type}}" >{{alert.msg}}</alert>
   </div>
 
 </form>
