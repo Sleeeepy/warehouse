@@ -32,7 +32,7 @@ angular.module('warehouseApp')
     $scope.errors = {};
 
     $scope.addCategory = function(form) {
-
+      $scope.submitted = true;
       if(form.$valid) {
         var newCat = new inventory.category($scope.category);
         if (newCat.parent){newCat.parent = newCat.parent._id;}
@@ -46,7 +46,7 @@ angular.module('warehouseApp')
         });
 
         };
-        $scope.submitted = true;
+
     };
     $scope.deleteCategory = function(category) {
       console.log('deleting',category.name);
