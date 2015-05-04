@@ -1,38 +1,22 @@
 'use strict';
 
 var _        = require('lodash');
-var Category = require('./category.model'),
-    Helper   = require('../../components/libs/helper');
+var Category = require('./category.model');
 
 // Get list of categorys
 exports.index = function(req, res) {
-
-
-  Category.find(function (err, categories) {
-    if(err) {  handleError(res, err); }
-
-    if(req.query.tree && categories.length>0){
-      var roots = categories.filter(function(category){
-        return !category.parent;
-      });
-      console.log(roots);
-      var tree = function(cat,cb){
-        cat.getChildrenTree({},function(err,tree){
-          cb(err,tree);
-        });
-      };
-      Helper.fullParallelBatch(tree,roots,function(trees){
-        //if(err) {handleError(res, err); }
-        return res.json(200, trees);
-      });
-
-
-
-    }else{
+  if(req.query.tree){
+    Category.getTree({},function(err,results){
+      if(err) {  handleError(res, err); }
+      return res.json(200, results);
+    });
+  }else{
+    Category.find(function (err, categories) {
+      if(err) {  handleError(res, err); }
       return res.json(200, categories);
-    }
+    });
+  }
 
-  });
 };
 
 // Get a single category
@@ -40,7 +24,11 @@ exports.show = function(req, res) {
   Category.findById(req.params.id, function (err, category) {
     if(err) { return handleError(res, err); }
     if(!category) { return res.send(404); }
-    return res.json(category);
+    if(!req.query.tree){return res.json(category);}
+
+    category.getTree({},function(err,tree){
+        return res.json(tree);
+    });
   });
 };
 

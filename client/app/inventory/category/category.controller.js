@@ -12,13 +12,19 @@ angular.module('warehouseApp')
 
     var inventory = Inventory;
 
+    $scope.changeCat = function(cat){
+      $scope.category=cat;
+    }
+
 
     $scope.updateCategories =  function(){
       inventory.category.query({level:1}).$promise.then(function(categories){
              $scope.categories=categories;
+             console.log(categories);
           });
-      inventory.category.tree().$promise.then(function(categories){
-                   $scope.tree=categories;
+      inventory.category.tree().$promise.then(function(tree){
+                    console.log(tree);
+                   $scope.tree=tree;
                 });
     };
     $scope.updateCategories();
@@ -26,7 +32,7 @@ angular.module('warehouseApp')
     $scope.errors = {};
 
     $scope.addCategory = function(form) {
-      $scope.submitted = true;
+
       if(form.$valid) {
         var newCat = new inventory.category($scope.category);
         if (newCat.parent){newCat.parent = newCat.parent._id;}
@@ -40,13 +46,20 @@ angular.module('warehouseApp')
         });
 
         };
-
+        $scope.submitted = true;
     };
     $scope.deleteCategory = function(category) {
+      console.log('deleting',category.name);
 
         inventory.category.get({id:category._id}).$promise.then(function(cat){
-          cat.$delete();
-          $scope.updateCategories();
+
+          cat.$delete(null,function(success){
+            $scope.updateCategories();
+          },function(err){
+            alert(err);
+            $scope.updateCategories();
+          });
+
         });
 
     };
