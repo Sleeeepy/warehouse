@@ -1,0 +1,14 @@
+ul
+{
+    list-style-type: none;
+}
+
+.title{
+    position:absolute;
+    text-align:center;
+    display:block;
+    font-size:27px;
+    font-weight:bold;
+    opacity:0.2;
+    z-index: 50;
+}

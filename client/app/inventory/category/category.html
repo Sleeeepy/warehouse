@@ -1,9 +1,16 @@
 
 <div class="container">
+<div class="row">
+  <H4>Categories</H4>
+</div>
+
+
 
 <div class="col-md-6">
-<a class="pull-right btn " href="/category/new"><span class="glyphicon glyphicon-plus"></span> Create Category</a>
-This is the category view.
+
+<!--
+<a1 class="pull-right btn " href="/category/new"><span class="glyphicon glyphicon-plus"></span> Create Category</a>
+-->
 
 
 <script type="text/ng-template" id="categoryTree">
@@ -25,79 +32,94 @@ This is the category view.
 	</li>
 </ul>
 
+
+
 </div>
 
 
 <div class="col-md-6">
-<ul class="nav nav-tabs">
-  <li role="presentation" ng-class="{active: true}">
-    <a ng-href="/category/{{ category._id }}">View</a>
-  </li>
-  <li role="presentation" ng-class="{active: false}">
-    <a ng-href="/category/{{ category._id }}/edit">Edit</a>
-  </li>
-</ul>
-
 
 <form class="form" name="form" ng-submit="addCategory(form)" novalidate autocomplete="off">
-  <!--Title-->
-  <div class="form-group " ng-class="{ 'has-success': form.name.$valid && submitted,
-                                      'has-error': form.name.$invalid && submitted }">
-    <label popover-placement="top" popover="I appeared on mouse enter!" popover-trigger="mouseenter">Title</label>
-    <input  type="text" name="title" class="form-control" ng-model="category.name"required/>
-    <p class="help-block" ng-show="form.title.$error.required && submitted">
-      A title is required
-    </p>
-  </div>
-  <!--Slug-->
-  <div class="form-group" ng-class="{ 'has-success': form.slug.$valid && submitted,
-                                      'has-error': form.slug.$invalid && submitted }">
-    <label   popover-placement="top"
-            popover="Unique identifier"
-            popover-trigger="mouseenter">
-            Slug
-    </label>
-    <input type="text" name="slug" class="form-control" ng-model="category.slug"
-           required
-           mongoose-error/>
-    <p class="help-block" ng-show="form.slug.$error.email && submitted">
-      Doesn't look like a valid name.
-    </p>
-    <p class="help-block" ng-show="form.slug.$error.required && submitted">
-      Slug is required.
-    </p>
-    <p class="help-block" ng-show="form.slug.$error.mongoose">
-      {{ errors.slug }}
-    </p>
-  </div>
-  <!--Parent-->
-  <div class="form-group" ng-class="{ 'has-success': form.parent.$valid && submitted,
-                                      'has-error': form.parent.$invalid && submitted }">
-    <label  popover-placement="top"
-            popover="Parent category. Leave blank for main category."
-            popover-trigger="mouseenter">
-            Parent
-    </label>
-    <select class="form-control"
-            ng-options="cat.name for cat in categories"
-            style="widht:70%;"
-            ng-model="category.parent"
 
-						default="null"
-            name="parent">
-    </select>
-</div>
-  <!--Description-->
-  <div class="form-group" ng-class="{ 'has-success': form.description.$valid && submitted,
-                                      'has-error': form.description.$invalid && submitted }">
-    <label>Descrription</label>
-    <textarea name="description" class="form-control" ng-model="category.description"
-           required
-           mongoose-error/>
-    <p class="help-block" ng-show="form.description.$error.required && submitted">
-      Please provide a description for the category.
-    </p>
-  </div>
+  <tabset>
+    <tab heading="General">
+      <!--Title-->
+      <div class="form-group " ng-class="{ 'has-success': form.name.$valid && submitted,
+                                          'has-error': form.name.$invalid && submitted }">
+        <label popover-placement="top" popover="I appeared on mouse enter!" popover-trigger="mouseenter">Title</label>
+        <input  type="text" name="title" class="form-control" ng-model="category.name"required/>
+        <p class="help-block" ng-show="form.title.$error.required && submitted">
+          A title is required
+        </p>
+      </div>
+      <!--Slug-->
+      <div class="form-group" ng-class="{ 'has-success': form.slug.$valid && submitted,
+                                          'has-error': form.slug.$invalid && submitted }">
+        <label   popover-placement="top"
+                popover="Unique identifier"
+                popover-trigger="mouseenter">
+                Slug
+        </label>
+        <input type="text" name="slug" class="form-control" ng-model="category.slug"
+               required
+               mongoose-error/>
+        <p class="help-block" ng-show="form.slug.$error.email && submitted">
+          Doesn't look like a valid name.
+        </p>
+        <p class="help-block" ng-show="form.slug.$error.required && submitted">
+          Slug is required.
+        </p>
+        <p class="help-block" ng-show="form.slug.$error.mongoose">
+          {{ errors.slug }}
+        </p>
+      </div>
+      <!--Parent-->
+      <div class="form-group" ng-class="{ 'has-success': form.parent.$valid && submitted,
+                                          'has-error': form.parent.$invalid && submitted }">
+        <label  popover-placement="top"
+                popover="Parent category. Leave blank for main category."
+                popover-trigger="mouseenter">
+                Parent
+        </label>
+        <select class="form-control"
+                ng-options="cat as cat.name + ': ' + cat.description  for cat in categories"
+                style="widht:70%;"
+                ng-model="category.parent"
+
+    						default="null"
+                name="parent">
+        </select>
+    </div>
+      <!--Description-->
+      <div class="form-group" ng-class="{ 'has-success': form.description.$valid && submitted,
+                                          'has-error': form.description.$invalid && submitted }">
+        <label>Descrription</label>
+        <textarea name="description" class="form-control" ng-model="category.description"
+               required
+               mongoose-error/>
+        <p class="help-block" ng-show="form.description.$error.required && submitted">
+          Please provide a description for the category.
+        </p>
+      </div>
+
+
+    </tab>
+    <tab heading="Images"><div flow-init="{target: '/upload'}"
+         flow-files-submitted="$flow.upload()"
+         flow-file-success="$file.msg = $message">
+
+      <span class="btn" flow-btn>Upload File</span>
+      <div class="jumbotron" flow-drop flow-drag-enter="class='alert-success'" flow-drag-leave="class=''"
+          ng-class="class">
+        <span class="title">Drag and drop your files here!</span>
+        <img ng-repeat="img in $flow.files" flow-img="img" style="box-shadow: 5px 5px 2px #888888;margin:5px;height:90px;width:auto;"/>
+
+      <table>
+
+      </table>
+    </div>
+    </tab>
+  </tabset>
 
 
   <div>
@@ -112,4 +134,6 @@ This is the category view.
 
 </form>
 </div>
+
+
 </div>

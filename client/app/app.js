@@ -6,7 +6,9 @@ angular.module('warehouseApp', [
   'ngSanitize',
   'ngRoute',
   'btford.socket-io',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  'ngDroplet',
+  "flow"
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
