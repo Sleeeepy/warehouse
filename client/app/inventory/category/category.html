@@ -82,6 +82,11 @@
 
           </tab>
           <tab heading="Images">
+            <span class="btn btn-default btn-file">
+    Browse! <input type="file" files-model="img.files" files-callback="test()" multiple  >
+</span>
+<p ng-repeat="img in seletedImages">a <pre>{{img.name | json }}</pre></p>
+<!--
             <div flow-init="{target: '/api/images'}"
                  flow-files-submitted="$flow.upload()"
                  flow-file-success="$file.msg = $message">
@@ -93,13 +98,13 @@
 
               <div class="jumbotron" flow-drop
                     flow-drag-enter="class='alert-success'" flow-drag-leave="class=''"
-                  ng-class="class">
+                  ng-class="class" >
                 <span class="title">Drag and drop your files here!</span>
                 <img ng-repeat="img in $flow.files" flow-img="img" style="box-shadow: 5px 5px 2px #888888;margin:5px;height:90px;width:auto;"/>
 
 
             </div>
-          </div>
+          </div>-->
           </tab>
         </tabset>
 

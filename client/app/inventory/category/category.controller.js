@@ -9,7 +9,13 @@ angular.module('warehouseApp')
     $scope.submitted = false;
     $scope.alert = {};
     $scope.errors = {};
+    $scope.img={files:null};
+
     var inventory = Inventory;
+
+    $scope.watch('selectedImages',function(oldValue,newValue){
+      alert('easdfasd');
+    });
 
     $scope.uploadImages = function(flow){
       var files = flow.files;
@@ -21,7 +27,12 @@ angular.module('warehouseApp')
 
     };
 
-
+    $scope.test = function(){
+      console.log('test',$scope.img);
+      inventory.image.save($scope.img,function(result){
+        console.log(result);
+      });
+    };
 
     $scope.selectCategory = function(cat){
 
