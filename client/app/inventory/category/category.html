@@ -86,25 +86,35 @@
     Browse! <input type="file" files-model="img.files" files-callback="test()" multiple  >
 </span>
 <p ng-repeat="img in seletedImages">a <pre>{{img.name | json }}</pre></p>
-<!--
-            <div flow-init="{target: '/api/images'}"
-                 flow-files-submitted="$flow.upload()"
-                 flow-file-success="$file.msg = $message">
-              <input type="file" flow-btn />
-              <span class="btn" flow-btn>Upload File</span>
-              <button class="btn btn-md btn-success" ng-click="uploadImages($flow)">
-                Upload
-              </button>
 
-              <div class="jumbotron" flow-drop
-                    flow-drag-enter="class='alert-success'" flow-drag-leave="class=''"
-                  ng-class="class" >
-                <span class="title">Drag and drop your files here!</span>
-                <img ng-repeat="img in $flow.files" flow-img="img" style="box-shadow: 5px 5px 2px #888888;margin:5px;height:90px;width:auto;"/>
+Username
+<input type="text" ng-model="username"></br></br>
+Drop File:
+          <div  ngf-drop ngf-select
+                ng-model="files"
+                ngf-change="upload($files)"
+                class="drop-box"
+                ngf-drag-over-class="dragover"
+                ngf-multiple="true"
+                ngf-allow-dir="true"
+                accept="image/*,application/pdf">
+                Drop pdfs or images here or click to upload
+          </div>
+          <div ngf-no-file-drop>
+                File Drag/Drop is not supported for this browser
+          </div>
+Files:
+<ul>
+<li ng-repeat="f in files" style="font:smaller">
+    <img ngf-src="f" ngf-min-size="10"  height="42" width="42" ngf-accept="'image/*'">
+    <span class="progress" ng-show="f.progress>=0">
+    {{f.name}}
+</li>
+</ul>
+Upload Log:
+<pre>{{log}}</pre>
+</div>
 
-
-            </div>
-          </div>-->
           </tab>
         </tabset>
 

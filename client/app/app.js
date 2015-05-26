@@ -7,7 +7,7 @@ angular.module('warehouseApp', [
   'ngRoute',
   'btford.socket-io',
   'ui.bootstrap',
-  "flow"
+  'ngFileUpload'
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
