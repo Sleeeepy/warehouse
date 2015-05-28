@@ -4,36 +4,18 @@ angular.module('warehouseApp')
   .controller('CategoryCtrl', function ($scope,$timeout,Inventory,Upload) {
 
     $scope.categories=[null];
-    $scope.files=null;
+    //$scope.files=null;
     $scope.tree = [];
     $scope.category = {};
     $scope.submitted = false;
     $scope.alert = {};
     $scope.errors = {};
-    $scope.img={files:null};
+
+    $scope.uploadedImages=[];
+
 
     var inventory = Inventory;
 
-    $scope.watch('selectedImages',function(oldValue,newValue){
-      alert('easdfasd');
-    });
-
-    $scope.uploadImages = function(flow){
-      var files = flow.files;
-      var fd = new FormData();
-
-      inventory.image.save({files:flow.files},function(result){
-        console.log(result);
-      });
-
-    };
-
-    $scope.test = function(){
-      console.log('test',$scope.img);
-      inventory.image.save($scope.img,function(result){
-        console.log(result);
-      });
-    };
 
     $scope.selectCategory = function(cat){
 
@@ -95,11 +77,6 @@ angular.module('warehouseApp')
 
     };
 
-
-    $scope.addImage=function(form2){
-      console.log(form2);
-
-    };
     $scope.reset = function(){
       $scope.form.$setPristine;
       $scope.form.$setUntouched;
@@ -112,17 +89,12 @@ angular.module('warehouseApp')
 
     //ng-file-upload jsfiddle
 
-    $scope.$watch('files', function () {
-      console.log('fileswatch',$scope.files);
-        $scope.upload($scope.files);
-    });
+
     $scope.log = '';
 
     $scope.upload = function (files) {
-      $scope.log = '';
-
+      //files = $scope.files;
         if (files && files.length) {
-          console.log('legnth',files.length);
             for (var i = 0; i < files.length; i++) {
                 var file = files[i];
                 Upload.upload({
@@ -133,12 +105,12 @@ angular.module('warehouseApp')
                     file: file
                 }).progress(function (evt) {
                     var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                    $scope.log = 'progress: ' + progressPercentage + '% ' +
-                                evt.config.file.name + '\n' + $scope.log;
-                    console.log($scope.log);
+                    file.progress = progressPercentage;
                 }).success(function (data, status, headers, config) {
-                    $scope.log = 'file ' + config.file.name + 'uploaded. Response: ' + JSON.stringify(data) + '\n' + $scope.log;
+
                     //$scope.$apply();
+                    console.log(data);
+                    $scope.uploadedImages.push(data);
                 });
             }
         }

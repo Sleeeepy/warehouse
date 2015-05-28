@@ -9,7 +9,9 @@
 
 <div class="col-md-6">
   <div class="panel panel-default">
-    <div class="panel-heading"> <h3 class="panel-title">Edit Category</h3></div>
+    <div class="panel-heading">
+      <h3 class="panel-title">Edit Category</h3>
+    </div>
     <div class="panel-body">
 
       <form class="form" name="form" ng-submit="addCategory(form)" novalidate autocomplete="off">
@@ -82,40 +84,43 @@
 
           </tab>
           <tab heading="Images">
-            <span class="btn btn-default btn-file">
-    Browse! <input type="file" files-model="img.files" files-callback="test()" multiple  >
-</span>
-<p ng-repeat="img in seletedImages">a <pre>{{img.name | json }}</pre></p>
+            Username
+            <input type="text" ng-model="username"></br></br>
+            Drop File:
+                      <div  ngf-drop ngf-select
+                            ng-model="files"
+                            ngf-change="upload($files)"
+                            class="drop-box"
+                            ngf-drag-over-class="dragover"
+                            ngf-multiple="true"
+                            ngf-allow-dir="true"
+                            accept="image/*,application/pdf">
+                            Drop pdfs or images here or click to upload
+                      </div>
+                      <div ngf-no-file-drop>
+                            File Drag/Drop is not supported for this browser
+                      </div>
+                  Files:
+                  <ul>
+                  <li ng-repeat="f in files" style="font:smaller">
+                      <img ngf-src="f" ngf-min-size="10"  height="42" width="42" ngf-accept="'image/*'">
+                      {{f.name}}: {{f.progress}}
+                      <span class="progress" ng-show="f.progress>=0">
 
-Username
-<input type="text" ng-model="username"></br></br>
-Drop File:
-          <div  ngf-drop ngf-select
-                ng-model="files"
-                ngf-change="upload($files)"
-                class="drop-box"
-                ngf-drag-over-class="dragover"
-                ngf-multiple="true"
-                ngf-allow-dir="true"
-                accept="image/*,application/pdf">
-                Drop pdfs or images here or click to upload
-          </div>
-          <div ngf-no-file-drop>
-                File Drag/Drop is not supported for this browser
-          </div>
-Files:
-<ul>
-<li ng-repeat="f in files" style="font:smaller">
-    <img ngf-src="f" ngf-min-size="10"  height="42" width="42" ngf-accept="'image/*'">
-    <span class="progress" ng-show="f.progress>=0">
-    {{f.name}}
-</li>
-</ul>
-Upload Log:
-<pre>{{log}}</pre>
-</div>
+                  </li>
+                  </ul>
 
-          </tab>
+
+                  <ul>
+                    <li ng-repeat="img in uploadedImages">
+
+                      <img ng-src="{{img.versions.md.url}}" alt="">
+                      <img ng-src="{{img.versions.sm.url}}" alt="">
+                    </li>
+                  </ul>
+
+
+            </tab>
         </tabset>
 
   <hr>
@@ -142,32 +147,32 @@ Upload Log:
 <a1 class="pull-right btn " href="/category/new"><span class="glyphicon glyphicon-plus"></span> Create Category</a>
 -->
 <div class="panel panel-default">
-  <div class="panel-heading"> <h3 class="panel-title">Your Shop</h3></div>
+  <div class="panel-heading">
+    <h3 class="panel-title">Your Shop</h3>
+  </div>
+  <div class="panel-body">
+    <script type="text/ng-template" id="categoryTree">
+        <a ng-click="selectCategory(cat)" href="#">{{ cat.name }}</a>
+    		<a href="" ng-click="deleteCategory(cat)">	<span class="glyphicon glyphicon-remove"></span>	</a>
+        <ul ng-if="cat.children.length>0">
+            <li ng-repeat="cat in cat.children" ng-include="'categoryTree'">
+            </li>
+        </ul>
+    </script>
 
-  <script type="text/ng-template" id="categoryTree">
-      <a ng-click="selectCategory(cat)" href="#">{{ cat.name }}</a>
-  		<a href="" ng-click="deleteCategory(cat)">	<span class="glyphicon glyphicon-remove"></span>	</a>
-      <ul ng-if="cat.children.length>0">
-          <li ng-repeat="cat in cat.children" ng-include="'categoryTree'">
-          </li>
-      </ul>
-  </script>
-
-  <ul class="list-group">
-  	<li class="list-group-item" ng-repeat="cat in tree">
-  		<a ng-click="selectCategory(cat)" href="#">{{ cat.name}}</a>
-  	<a href="" ng-click="deleteCategory(cat)">	<span class="glyphicon glyphicon-remove"></span>	</a>
-  	<ul>
-      <li ng-repeat="cat in cat.children" ng-include="'categoryTree'"></li>
-  	</ul>
-  	</li>
-  </ul>
+    <ul class="list-group">
+    	<li class="list-group-item" ng-repeat="cat in tree">
+    		<a ng-click="selectCategory(cat)" href="#">{{ cat.name}}</a>
+    	<a href="" ng-click="deleteCategory(cat)">	<span class="glyphicon glyphicon-remove"></span>	</a>
+    	<ul>
+        <li ng-repeat="cat in cat.children" ng-include="'categoryTree'"></li>
+    	</ul>
+    	</li>
+    </ul>
   </div>
 
 
-
-
-
+  </div>
 
 
 </div>

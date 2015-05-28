@@ -39,3 +39,7 @@ ul
     width: 100px;
     border: 3px groove #CCC;
 }
+
+.panel-body {
+  min-height:500px;
+}

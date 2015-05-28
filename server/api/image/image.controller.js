@@ -22,10 +22,16 @@ exports.show = function(req, res) {
 
 // Creates a new image in the DB.
 exports.create = function(req, res) {
-  Image.create(req.body, function(err, image) {
+
+  Image.create({path:req.files.file.path}, function(err, image) {
     if(err) { return handleError(res, err); }
     return res.json(201, image);
   });
+  /*
+  Image.create(req.body, function(err, image) {
+    if(err) { return handleError(res, err); }
+    return res.json(201, image);
+  });*/
 };
 
 // Updates an existing image in the DB.
