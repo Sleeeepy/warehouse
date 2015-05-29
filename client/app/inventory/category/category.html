@@ -7,7 +7,7 @@
 
 
 
-<div class="col-md-6">
+<div class="col-md-8">
   <div class="panel panel-default">
     <div class="panel-heading">
       <h3 class="panel-title">Edit Category</h3>
@@ -84,31 +84,39 @@
 
           </tab>
           <tab heading="Images">
-            Username
-            <input type="text" ng-model="username"></br></br>
-            Drop File:
-                      <div  ngf-drop ngf-select
-                            ng-model="files"
-                            ngf-change="upload($files)"
-                            class="drop-box"
-                            ngf-drag-over-class="dragover"
-                            ngf-multiple="true"
-                            ngf-allow-dir="true"
-                            accept="image/*,application/pdf">
+
+              <div  ngf-drop ngf-select
+                    ng-model="files"
+                    ngf-change="upload($files)"
+                    class="drop-box"
+                    ngf-drag-over-class="dragover"
+                    ngf-multiple="true"
+                    ngf-allow-dir="true"
+                    accept="image/*,application/pdf">
                             Drop pdfs or images here or click to upload
+                    <div ng-repeat="f in files">
+                      <div class="image-upload">
+                        <img ngf-src="f" ngf-min-size="10" ngf-accept="'image/*'">
+
+
+
+                        <progressbar class="test progress-striped" role="progressbar" type="success" value="f.progress"
+                                    style="min-width: 2em">
+                          {{f.progress}}%
+                        </progressbar>
+
+
+                      </div>
+              </div>
+                    <div style="clear:both"></div>
+
                       </div>
                       <div ngf-no-file-drop>
                             File Drag/Drop is not supported for this browser
                       </div>
-                  Files:
-                  <ul>
-                  <li ng-repeat="f in files" style="font:smaller">
-                      <img ngf-src="f" ngf-min-size="10"  height="42" width="42" ngf-accept="'image/*'">
-                      {{f.name}}: {{f.progress}}
-                      <span class="progress" ng-show="f.progress>=0">
 
-                  </li>
-                  </ul>
+
+
 
 
                   <ul>
@@ -141,11 +149,9 @@
 </div>
 
 
-<div class="col-md-6">
+<div class="col-md-4">
 
-<!--
-<a1 class="pull-right btn " href="/category/new"><span class="glyphicon glyphicon-plus"></span> Create Category</a>
--->
+
 <div class="panel panel-default">
   <div class="panel-heading">
     <h3 class="panel-title">Your Shop</h3>

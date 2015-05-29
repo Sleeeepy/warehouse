@@ -41,8 +41,8 @@ var client = new Upload('ezpublicimages', {
   aws:{region: 'eu-central-1',
       path: 'images/',
       acl: 'public-read',
-      accessKeyId: 'AKIAJMBSCA3ZTQ2ZSIDQ',// process.env.AWS_ACCESS_KEY,
-      secretAccessKey: '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'// process.env.AWS_SECRET
+      accessKeyId:  process.env.AWS_ACCESS_KEY,
+      secretAccessKey:  process.env.AWS_SECRET
       },
   versions: [{
       original: true

@@ -95,12 +95,12 @@ angular.module('warehouseApp')
     $scope.upload = function (files) {
       //files = $scope.files;
         if (files && files.length) {
-            for (var i = 0; i < files.length; i++) {
-                var file = files[i];
+            //for (var i = 0; i < files.length; i++) {
+            files.forEach(function(file,i){
+                //var file = files[i];
                 Upload.upload({
                     url: '/api/images',//'https://angular-file-upload-cors-srv.appspot.com/upload',
                     fields: {
-                        'username': $scope.username
                     },
                     file: file
                 }).progress(function (evt) {
@@ -110,9 +110,10 @@ angular.module('warehouseApp')
 
                     //$scope.$apply();
                     console.log(data);
+                    file.progress = 100;
                     $scope.uploadedImages.push(data);
                 });
-            }
+            });
         }
     };
 

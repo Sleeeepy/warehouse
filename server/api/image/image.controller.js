@@ -22,7 +22,7 @@ exports.show = function(req, res) {
 
 // Creates a new image in the DB.
 exports.create = function(req, res) {
-
+  return res.json(201,{});
   Image.create({path:req.files.file.path}, function(err, image) {
     if(err) { return handleError(res, err); }
     return res.json(201, image);

@@ -13,20 +13,12 @@ ul
     z-index: 50;
 }
 
-.button {
-    -moz-appearance: button;
-    /* Firefox */
-    -webkit-appearance: button;
-    /* Safari and Chrome */
-    padding: 10px;
-    margin: 10px;
-    width: 70px;
-}
+
 .drop-box {
     background: #F8F8F8;
     border: 3px dashed #DDD;
-    width: 400px;
-    height: 100px;
+    width: 100%%;
+    min-height: 100px;
     text-align: center;
     padding-top: 25px;
     margin: 10px;
@@ -34,12 +26,28 @@ ul
 .dragover {
     border: 3px dashed blue;
 }
-.progress {
-    display: inline-block;
-    width: 100px;
-    border: 3px groove #CCC;
-}
+.image-upload {
+  position:relative;
+    width:94px;
+    max-height:94px;
+    margin: 3px;
+    float: left;
 
+}
+.image-upload>img {
+  overflow: hidden;
+  width:94px;
+  height:94px;
+  border-radius: 5px;
+
+
+}
+.image-upload .test {
+    position:absolute;
+    margin:3%;
+    width:95%;
+    bottom:0px;
+}
 .panel-body {
   min-height:500px;
 }
